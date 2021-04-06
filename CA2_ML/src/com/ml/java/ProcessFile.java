@@ -13,7 +13,6 @@ import java.util.List;
 public class ProcessFile {
 	
 	private String fileName;
-	int training;
 	static List<List<String>> data = new ArrayList<>();
 	
 	public ProcessFile (String fileName)
