@@ -12,12 +12,21 @@ import java.util.List;
 
 public class ProcessFile {
 	
-	private String fileName;
+	private String fileName = "MLdata.csv";
 	static List<List<String>> data = new ArrayList<>();
 	
-	public ProcessFile (String fileName)
-	{
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+
+	public ProcessFile ()
+	{
+		setFileName(fileName);
 	}
 	
 	public void readFile() throws IOException

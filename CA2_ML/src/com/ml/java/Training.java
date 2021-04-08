@@ -7,51 +7,252 @@ import java.util.List;
 
 public class Training {
 	
-	private double training;
-	ProcessFile file = new ProcessFile("MLdata.csv");
-	static List<List<String>> studentsTraining = new ArrayList<>();
-	static List<List<String>> studentsTesting = new ArrayList<>();
-	double labelYes=0;
-	double labelNo=0;
-	double femaleYes=0;
-	double femaleNo=0;
-	double maleYes=0;
-	double maleNo=0;
-	double parentYesYes = 0;
-	double parentYesNo = 0;
-	double parentNoYes = 0;
-	double parentNoNo = 0;
-	double jobYesYes = 0;
-	double jobYesNo = 0;
-	double jobNoYes = 0;
-	double jobNoNo =0;
-	double urbanYes = 0;
-	double urbanNo = 0;
-	double ruralYes = 0;
-	double ruralNo = 0;
-	double businessYesYes = 0;
-	double businessYesNo = 0;
-	double businessNoYes = 0;
-	double businessNoNo = 0;
-	int i; 
-	int j;
+	// create instance of process file
+	ProcessFile file = new ProcessFile();
 	
+	// create List of Lists students training to store training data
+	static List<List<String>> studentsTraining = new ArrayList<>();
+	
+	// var to hold number/ amount of data for training
+	private static double training;
+	
+	// vars to store totals of each attribute in each row
+	private static double labelYes=0;
+	private static double labelNo=0;
+	private static double femaleYes=0;
+	private static double femaleNo=0;
+	private static double maleYes=0;
+	private static double maleNo=0;
+	private static double parentYesYes = 0;
+	private static double parentYesNo = 0;
+	private static double parentNoYes = 0;
+	private static double parentNoNo = 0;
+	private static double jobYesYes = 0;
+	private static double jobYesNo = 0;
+	private static double jobNoYes = 0;
+	private static double jobNoNo =0;
+	private static double urbanYes = 0;
+	private static double urbanNo = 0;
+	private static double ruralYes = 0;
+	private static double ruralNo = 0;
+	private static double businessYesYes = 0;
+	private static double businessYesNo = 0;
+	private static double businessNoYes = 0;
+	private static double businessNoNo = 0;
+	
+	// index for loops
+	private int i; 
+	private int j;
+			
+	//constructor
 	public Training()
 	{
 		
 	}
 	
-	public void countData() throws IOException
+	//Getters and Setters
+	public static double getTraining() {
+		return training;
+	}
+	
+	public static void setTraining(double training) {
+		Training.training = training;
+	}
+	
+	public static double getLabelYes() {
+		return labelYes;
+	}
+
+	public static void setLabelYes(double labelYes) {
+		Training.labelYes = labelYes;
+	}
+
+	public static double getLabelNo() {
+		return labelNo;
+	}
+
+	public static void setLabelNo(double labelNo) {
+		Training.labelNo = labelNo;
+	}
+
+	public static double getFemaleYes() {
+		return femaleYes;
+	}
+
+	public static void setFemaleYes(double femaleYes) {
+		Training.femaleYes = femaleYes;
+	}
+
+	public static double getFemaleNo() {
+		return femaleNo;
+	}
+
+	public static void setFemaleNo(double femaleNo) {
+		Training.femaleNo = femaleNo;
+	}
+
+	public static double getMaleYes() {
+		return maleYes;
+	}
+
+	public static void setMaleYes(double maleYes) {
+		Training.maleYes = maleYes;
+	}
+
+	public static double getMaleNo() {
+		return maleNo;
+	}
+
+	public static void setMaleNo(double maleNo) {
+		Training.maleNo = maleNo;
+	}
+
+	public static double getParentYesYes() {
+		return parentYesYes;
+	}
+
+	public static void setParentYesYes(double parentYesYes) {
+		Training.parentYesYes = parentYesYes;
+	}
+
+	public static double getParentYesNo() {
+		return parentYesNo;
+	}
+
+	public static void setParentYesNo(double parentYesNo) {
+		Training.parentYesNo = parentYesNo;
+	}
+
+	public static double getParentNoYes() {
+		return parentNoYes;
+	}
+
+	public static void setParentNoYes(double parentNoYes) {
+		Training.parentNoYes = parentNoYes;
+	}
+
+	public static double getParentNoNo() {
+		return parentNoNo;
+	}
+
+	public static void setParentNoNo(double parentNoNo) {
+		Training.parentNoNo = parentNoNo;
+	}
+
+	public static double getJobYesYes() {
+		return jobYesYes;
+	}
+
+	public static void setJobYesYes(double jobYesYes) {
+		Training.jobYesYes = jobYesYes;
+	}
+
+	public static double getJobYesNo() {
+		return jobYesNo;
+	}
+
+	public static void setJobYesNo(double jobYesNo) {
+		Training.jobYesNo = jobYesNo;
+	}
+
+	public static double getJobNoYes() {
+		return jobNoYes;
+	}
+
+	public static void setJobNoYes(double jobNoYes) {
+		Training.jobNoYes = jobNoYes;
+	}
+
+	public static double getJobNoNo() {
+		return jobNoNo;
+	}
+
+	public static void setJobNoNo(double jobNoNo) {
+		Training.jobNoNo = jobNoNo;
+	}
+
+	public static double getUrbanYes() {
+		return urbanYes;
+	}
+
+	public static void setUrbanYes(double urbanYes) {
+		Training.urbanYes = urbanYes;
+	}
+
+	public static double getUrbanNo() {
+		return urbanNo;
+	}
+
+	public static void setUrbanNo(double urbanNo) {
+		Training.urbanNo = urbanNo;
+	}
+
+	public static double getRuralYes() {
+		return ruralYes;
+	}
+
+	public static void setRuralYes(double ruralYes) {
+		Training.ruralYes = ruralYes;
+	}
+
+	public static double getRuralNo() {
+		return ruralNo;
+	}
+
+	public static void setRuralNo(double ruralNo) {
+		Training.ruralNo = ruralNo;
+	}
+
+	public static double getBusinessYesYes() {
+		return businessYesYes;
+	}
+
+	public static void setBusinessYesYes(double businessYesYes) {
+		Training.businessYesYes = businessYesYes;
+	}
+
+	public static double getBusinessYesNo() {
+		return businessYesNo;
+	}
+
+	public static void setBusinessYesNo(double businessYesNo) {
+		Training.businessYesNo = businessYesNo;
+	}
+
+	public static double getBusinessNoYes() {
+		return businessNoYes;
+	}
+
+	public static void setBusinessNoYes(double businessNoYes) {
+		Training.businessNoYes = businessNoYes;
+	}
+
+	public static double getBusinessNoNo() {
+		return businessNoNo;
+	}
+
+	public static void setBusinessNoNo(double businessNoNo) {
+		Training.businessNoNo = businessNoNo;
+	}	
+	
+	// takes in percent of data to be used
+	// reads file in ProcessFile
+	// set training to data List multiplied by the percentage (e.g. 0.70)
+	public void countData(double percent) throws IOException
 	{
 		file.readFile();
-		training = (int) (ProcessFile.data.size()*0.7);
+		training = (int) (file.data.size()*percent);
 		
-		
+		// for the length of training, add the List from data List to studentsTraining List
 		for(i=0; i< training; i++)
 		{
-			studentsTraining.add(ProcessFile.data.get(i));
+			studentsTraining.add(file.data.get(i));
 		}
 		
+		// for each element in studentsTraining,
+		// if elemented 5 = Yes, increment labelYes
+		// else if = No, increment labelNo to gather total with outcome yes
+		// vs total with outcome no
 		for(List<String> element: studentsTraining)
 		{
 			
@@ -91,6 +292,11 @@ public class Training {
 				
 			
 		}
+		
+		//System.out.println(femaleYes);
+		//System.out.println(femaleNo);
+		//System.out.println(maleYes);
+		//System.out.println(maleNo);
 		
 		for(j=0; j< training; j++)
 		{
@@ -196,152 +402,10 @@ public class Training {
 		//System.out.println(businessYesNo);
 		//System.out.println(businessNoYes);
 		//System.out.println(businessNoNo);
-	}			
-	
-	public void getTestData() throws IOException
-	{
-		countData();
-		for(i = studentsTraining.size(); i < file.data.size(); i++)
-		{
-			studentsTesting.add(file.data.get(i));
-		}
-		//System.out.println(studentsTesting.size());
 	}
-	
-	public void trainData() throws IOException
-	{
-		getTestData();
-		
-		//calculate prior
-		double priorYes = labelYes / training;
-		double priorNo = labelNo/ training;	
-		
-		//empty variables to hold probability of yea/no
-		double probYes ;
-		double probNo;
-		
-		
-		double correct = 0;
-		double wrong = 0;
-		
-		// for every element in training 
-		for(j=0; j< studentsTesting.size(); j++)
-		{
-			// empty variables for numerator, for outcome yes and outcome no
-			double yesNumerator = 0;
-			double noNumerator = 0;
-			
-			// empty variable for denominator
-			double denom = 0;
-			
-			//empty string vars
-			String yesAttribs = "";
-			String noAttribs = "";
-			
-			/**if first element in students training = specified element, 
-			 * calculate the denom for specified element and and add to denom var (after first element, multiply the denom var by the new denom),
-			 * calculate the numerator for outcome yes, add to yesNumerator var (after first element, multiply the yesNumerator var by the new yesNuerator),
-			 * calculate the numerator for outcome no, add to noNumerator var (after first element, multiply the noNumerator var by the new noNumerator)
-			 */
-			
-			if(studentsTesting.get(j).get(0).matches("Female"))
-			{
-				denom = ((femaleYes + femaleNo) / training);
-				yesNumerator = (femaleYes/ labelYes);
-				noNumerator = (femaleNo/ labelNo);
-			
-			}
-			else if(studentsTesting.get(j).get(0).matches("Male"))
-			{
-				denom = ((maleYes + maleNo)/ training);
-				yesNumerator = (maleYes/ labelYes);
-				noNumerator = (maleNo/ labelNo);
-			
-			}
-			
-			if(studentsTesting.get(j).get(1).matches("Yes"))
-			{
-				denom = denom * ((parentYesYes + parentYesNo)/ training);
-				yesNumerator = yesNumerator * (parentYesYes /labelYes);
-				noNumerator = noNumerator * (parentYesNo / labelNo);	
-			
-			}
-			else if(studentsTesting.get(j).get(1).matches("No"))
-			{
-				denom = denom * ((parentNoYes + parentNoNo)/ training);
-				yesNumerator = yesNumerator * (parentNoYes /labelYes);
-				noNumerator = noNumerator * (parentNoNo / labelNo);
-				
-			}
-			
-			if(studentsTesting.get(j).get(2).matches("Yes"))
-			{
-				denom = denom * ((jobYesYes + jobYesNo)/ training);
-				yesNumerator = yesNumerator * (jobYesYes /labelYes);
-				noNumerator = noNumerator * (jobYesNo / labelNo);
-						
-			}
-			else if(studentsTesting.get(j).get(2).matches("No"))
-			{
-				denom = denom * ((jobNoYes + jobNoNo)/ training);
-				yesNumerator = yesNumerator * (jobNoYes /labelYes);
-				noNumerator = noNumerator * (jobNoNo / labelNo);
 
-			}
-			
-			if(studentsTesting.get(j).get(3).contains("Urban"))
-			{
-				denom = denom * ((urbanYes + urbanNo)/ training);
-				yesNumerator = yesNumerator * (urbanYes /labelYes);
-				noNumerator = noNumerator * (urbanNo / labelNo);
-			
-			}
-			else if(studentsTesting.get(j).get(3).matches("Rural"))
-			{
-				denom = denom * ((ruralYes + ruralNo)/ training);
-				yesNumerator = yesNumerator * (ruralYes /labelYes);
-				noNumerator = noNumerator * (ruralNo / labelNo);
-				
-			}
-			
-			if(studentsTesting.get(j).get(4).matches("Yes"))
-			{
-				denom = denom * ((businessYesYes + businessYesNo)/ training);
-				yesNumerator = yesNumerator * (businessYesYes /labelYes);
-				noNumerator = noNumerator * (businessYesNo / labelNo);
-				
-			}
-			else if(studentsTesting.get(j).get(4).matches("No"))
-			{
-				denom = denom * ((businessNoYes + businessNoNo)/ training);
-				yesNumerator = yesNumerator * (businessNoYes /labelYes);
-				noNumerator = noNumerator * (businessNoNo / labelNo);
-				
-			}
-			
-			probYes = (yesNumerator * priorYes) / denom;
-			probNo = (noNumerator * priorNo) / denom; 
-			
-			
-	
-			if(probYes > probNo && studentsTesting.get(j).get(5).matches("Yes"))
-			{
-				correct++;
-			}
-			else if(probNo > probYes && studentsTesting.get(j).get(5).matches("No"))
-			{
-				correct++;
-			}
-			else
-			{
-				wrong++;
-			}
-		}	
 
-		correct = (correct / studentsTesting.size()) * 100;
-		System.out.println("Accuracy: " + (double) Math.round(correct * 100)/100 + "%");
-		
-	}
+	
 }
 
 	

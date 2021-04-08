@@ -2,20 +2,32 @@ package com.ml.java;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class Screen extends JFrame implements ActionListener{
 
-	JPanel genderPanel, parentPanel, jobPanel, areaPanel, businessPanel;
+	JPanel genderPanel, parentPanel, jobPanel, areaPanel, businessPanel, predictPanel;
 	JLabel genderLabel, parentLabel, jobLabel, areaLabel, businessLabel;
-	JCheckBox female, male, parentYes, parentNo, jobYes, jobNo, urban, rural, businessYes, businessNo;
+	JRadioButton female, male, parentYes, parentNo, jobYes, jobNo, urban, rural, businessYes, businessNo;
+	JButton predict, clear;
+	Testing test = new Testing();
+	String[] predictInfo = new String[5];
 	
 	Screen(String title)
 	{
@@ -27,29 +39,64 @@ public class Screen extends JFrame implements ActionListener{
 		// gender 
 		genderPanel = new JPanel();
 		genderLabel = new JLabel("Gender: ");
-		female = new JCheckBox("Female");
-		male = new JCheckBox("Male");
+		female = new JRadioButton("Female");
+		male = new JRadioButton("Male");
+		
+		ButtonGroup gender=new ButtonGroup();
+		gender.add(female);
+		gender.add(male);
 		
 		parentPanel = new JPanel();
 		parentLabel = new JLabel("Parent/ Guardian had own business: ");
-		parentYes = new JCheckBox("Yes");
-		parentNo = new JCheckBox("No");
+		parentYes = new JRadioButton("Yes");
+		parentNo = new JRadioButton("No");
+		
+		ButtonGroup parent=new ButtonGroup();
+		parent.add(parentYes);
+		parent.add(parentNo);
 		
 		jobPanel = new JPanel();
 		jobLabel = new JLabel("Do you currently have a part-time job?: ");
-		jobYes = new JCheckBox("Yes");
-		jobNo = new JCheckBox("No");
+		jobYes = new JRadioButton("Yes");
+		jobNo = new JRadioButton("No");
+		
+		ButtonGroup job=new ButtonGroup();
+		job.add(jobYes);
+		job.add(jobNo);
+		
 		
 		areaPanel = new JPanel();
 		areaLabel = new JLabel("Is your area: ");
-		urban = new JCheckBox("Urban");
-		rural = new JCheckBox("Rural");
+		urban = new JRadioButton("Urban");
+		rural = new JRadioButton("Rural");
+		
+		ButtonGroup area=new ButtonGroup();
+		area.add(urban);
+		area.add(rural);
 		
 		businessPanel = new JPanel();
 		businessLabel = new JLabel("Do you study business?: ");
-		businessYes = new JCheckBox("Yes");
-		businessNo = new JCheckBox("No");
+		businessYes = new JRadioButton("Yes");
+		businessNo = new JRadioButton("No");
 		
+		ButtonGroup business=new ButtonGroup();
+		business.add(businessYes);
+		business.add(businessNo);
+		
+		predictPanel = new JPanel();
+		predict = new JButton("Predict");
+		
+		female.addActionListener(this);
+		male.addActionListener(this);
+		parentYes.addActionListener(this);
+		parentNo.addActionListener(this);
+		jobYes.addActionListener(this);
+		jobNo.addActionListener(this);
+		urban.addActionListener(this);
+		rural.addActionListener(this);
+		businessYes.addActionListener(this);
+		businessNo.addActionListener(this);
+		predict.addActionListener(this);
 		
 		add(genderPanel);
 		genderPanel.add(genderLabel);
@@ -76,14 +123,83 @@ public class Screen extends JFrame implements ActionListener{
 		businessPanel.add(businessYes);
 		businessPanel.add(businessNo);
 		
+		add(predictPanel);
+		predictPanel.add(predict);
+		
+		
 		setVisible(true);
 		
 	}
 	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+
+		if(female.isSelected())
+		{
+			predictInfo[0] = "Female";
+		}
+		if(male.isSelected())
+		{
+			predictInfo[0] = "Male";
+		}
 		
+		if(parentYes.isSelected())
+		{
+			predictInfo[1] = "Yes";
+		}
+		
+		if(parentNo.isSelected())
+		{
+			predictInfo[1] = "No";
+		}
+		
+		if(jobYes.isSelected())
+		{
+			predictInfo[2] = "Yes";
+		}
+		if(jobNo.isSelected())
+		{
+			predictInfo[2] = "No";
+		}
+		
+		if(urban.isSelected())
+		{
+			predictInfo[3] = "Urban";	
+		}
+		if(rural.isSelected())
+		{
+			predictInfo[3] = "Rural";	
+		}
+		
+		if(businessYes.isSelected())
+		{
+			predictInfo[4] = "Yes";
+		}
+		if(businessNo.isSelected())
+		{
+			predictInfo[4] = "No";
+		}
+		
+		if(e.getSource() == predict)
+		{
+			List asList = Arrays.asList(predictInfo);
+			test.studentsTesting.add(asList);
+			
+			try {
+				JOptionPane.showMessageDialog(this, test.testData());
+				test.studentsTesting.clear();
+			} catch (HeadlessException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+		
+			
+			
+
+		}
 		
 	}
 
