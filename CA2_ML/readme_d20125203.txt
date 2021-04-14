@@ -1,0 +1,73 @@
+The project I chose to cover was the Machine Learning assignment. For this assignment I created 5 classes: ProcessFile, Training, Testing, Screen and Control.
+
+Classes:
+
+The ProcessFile class is used to open and read in the data from the "MLdata.csv" file. It contains a private String variable which is set to the MLdata filename
+and a global List of Lists called data to hold the csv data. In the method readFile () it uses BufferedReader to read in the file, line by line adding it into a 
+String array, converting it to a List and adding it to the List of Lists.
+
+The Training class creates an instance of the ProcessFile class, so it can call the readFile() method from the ProcessClass to collect the data. It has a global 
+List of Lists (studentsTraining), an empty encapsulated double variable (training) to hold the number of data to be trained, multiple encapsulated double variables
+set to 0, to hold the totals of each attribute where the outcome was yes or no. There are also 2 private variable i and j used for indexing. The method countData()
+takes in a double parameter called percent, where the user can pass in the percent of data they wish to use for training. This is done by multiplying the List of
+Lists data from ProcessFile by the percentage, resulting in the number of data which will be used. A for loop then loops for the length of the number of data to
+be used and adds the Lists of data from the data List of Lists to the studentsTraining List of Lists. The method then loops through each element of the 
+studentsTraining List and totals up where the outcome of each element is Yes or No. It then loops through again for each attribute to find the totals where the 
+attribute = "female" and outcome="Yes", attribute="female" and outcome ="No".. etc, this is done for each attribute the data contains.
+
+The Testing class creates instances of both ProcessFile and Training, to access the attributes from each. It has a List of Lists called studentsTraining, to 
+hold the data to be tested and a List of Strings to hold the calculated outcomes of the tested data. It has encapsulated attributes, empty String outcome, double 
+probYes and probNo, as well as i and j vars for indexing. The first method is getTestData(), this takes the elements starting from the last index of the 
+studentsTraining List of Lists till to the end of the original List of data from ProcessFile and adds then to studentsTesting. 
+The next method is testData, this calculates the probabilities of each outcome using Naive Bayes algorithm. It first calculates the prior for each outcome by 
+dividing the total of each outcome over the total number of training data. The method then loops through the studentsTesting List, for each time it loops creating
+double variables for a yesNumerator, noNumerator, denom and null counter, each set to 0. It then goes through each index of each of the Lists, adding the
+appropriate data to each numerator and denominator and the multipltying the numerator/ denominator data after that. If an element is null, the null counter 
+increments. Finally the probability of each outcome is calculated by multiplying the numerator for the appropriate outcome, with the prior for that outcome all
+over the denominator. If the probability of yes is greater than no, the method returns "Students will likely become entrepreneur" and adds yes to the outcomes 
+List, else if probability of no is greate than yes, the method returns "Students will not likely become entrepreneur" and adds no to the outcomes List, or if
+the nullCounter is greater than 0, it will return "Error, not enough values entered."
+The next method is stats(), this returns the calculated probabilities for each outcome rounded, so users can easily read it. This uses the Decimal Format to 
+round. 
+Finally the last method is getAccuracy(), this method calulates the accuracy of the predictions by comparing each of the outcomes added to the List, to the 
+outcomes of the data from the studentsTesting of the same index. If they match, a double variable correct(which was set to 0) increments and is used to calculate
+the percentage of accuracy by dividing it over the number of data in the testing List, all multiplied by 100, and then round it to 2 decimal places.
+
+The Screen class inherits from from JFrame to create the GUI, allowing interactions such as buttons and textareas to be added, and for a title to be passed to
+create and instance of the screen. The screen creates a header of text, welcoming the user to the predictor. It then uses radio buttons for each attribute
+which are grouped together using button grouping, to allow a user to only select 1 of the 2 options. There are then three buttons predict, view stats and clear.
+Predict, will calculate the probability of each outcome when clicked, and will output in words whether they will or will not become an entrepreneur. The view 
+stats button outputs the calculation of each outcome, and the clear button clears the previously predicted data. Each of these buttons have tooltips to aid the
+user in the use of the app. This class implements the ActionListener, implementing the method of actionPerformed, which is overridden to implement the response
+from each button. In this case, for the radio button selected, the word for that button would going into an array. When the predict button is pressed, the array
+is then converted to a List of Strings and added to the studentsTesting list of lists from the Testing class. As the count data method from training is passed 1 
+in the screen class, the training data will contain 100% of the data and the testing will contain only the list of attributes selected. It calls the testData()
+method and returns the String outcome. If not all of the options are selected an error message will appear. The view stats button, calls the stats() method from 
+testing to return the probabilities of each and finally the clear button will clear the studentsTesting List.
+
+Finally the control class holds my main method, and tests some of the methods of each of my classes.
+
+Core Functionality:
+- GUI I kept the layout standard, using a flow layout. I decided to use radio buttons to take input to avoid errors caused by spelling mistakes. I grouped
+the buttons so that the user could only select one of the two choices using button groups. I implemented a header label, to greet the user and changed the 
+background colour in attempts to make it look better. 
+
+- To read in and total the data I created multiple empty variables and looped through each element of each array of the training data and checked it against one of
+the two options and if they had the outcome of yes or no and incremented the variable in each case.
+
+- The probability calculation I then looped through data in a test data array and calculated the denominator and numerators accordingly, at the end applying them 
+into the algorithm.
+
+Optional Functionality:
+- the user can train whatever percent of the data they wish, by passing the percentage into the countData() method. The testing is then done on the remaining data
+from this. This allows the user to also train with all the data, which it uses for the prediction app.
+- The user can test the accuracy of the prediction in the testing class, with the getAccuracy() method.
+- There are three buttons, which allows the user to view the prediction, view the probabilities of each outcome and clear the data.
+- The predictions are rounded up.
+- The data is not fully hard coded, should more instances be added, it would still work.
+
+If I had more time:
+If I had more time I would have liked to learn to make the GUI more appealing. I would also liked to have learned to implement the algorithm with less hard coding
+as I felt my code was quite long, and doesnt look the best. 
+
+

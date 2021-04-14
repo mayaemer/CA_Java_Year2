@@ -6,46 +6,61 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
+// Screen inherits from JFrame, implements ActionListener interface
 public class Screen extends JFrame implements ActionListener{
 
-	JPanel genderPanel, parentPanel, jobPanel, areaPanel, businessPanel, predictPanel;
-	JLabel genderLabel, parentLabel, jobLabel, areaLabel, businessLabel;
-	JRadioButton female, male, parentYes, parentNo, jobYes, jobNo, urban, rural, businessYes, businessNo;
-	JButton predict, clear;
-	Testing test = new Testing();
-	String[] predictInfo = new String[5];
+	//Attributes
+	private JPanel headerPanel, genderPanel, parentPanel, jobPanel, areaPanel, businessPanel, predictPanel;
+	private JLabel header, genderLabel, parentLabel, jobLabel, areaLabel, businessLabel;
+	private JRadioButton female, male, parentYes, parentNo, jobYes, jobNo, urban, rural, businessYes, businessNo;
+	private JButton predict, viewStats, clear;
 	
-	Screen(String title)
+	// instance of training
+	Training train = new Training();
+	
+	// String array to hold information for prediction
+	private String[] predictInfo = new String[5];
+	
+	// constructor
+	Screen(String title) throws IOException
 	{
 		// set size, layout
 		super(title);
 		setSize(500,500);
 		setLayout(new FlowLayout());
 		
-		// gender 
+		// call the training class to count all data in csv file
+		train.countData(1);
+		
+		// create panel and label for header
+		headerPanel = new JPanel();
+		header = new JLabel("Welcome to Entrepreneur Predicter, please enter the answers to the following:");
+		
+		// create panel, label, radio buttons for gender 
+		// this is done for each of the attribute sets
 		genderPanel = new JPanel();
 		genderLabel = new JLabel("Gender: ");
 		female = new JRadioButton("Female");
 		male = new JRadioButton("Male");
 		
+		//create a button group for gender, to allow only one of the two options to be selected
+		// this is done for each of the attribute sets
 		ButtonGroup gender=new ButtonGroup();
 		gender.add(female);
 		gender.add(male);
 		
+		//panel, label, and buttons created for each section with each attribute option
 		parentPanel = new JPanel();
 		parentLabel = new JLabel("Parent/ Guardian had own business: ");
 		parentYes = new JRadioButton("Yes");
@@ -83,9 +98,14 @@ public class Screen extends JFrame implements ActionListener{
 		business.add(businessYes);
 		business.add(businessNo);
 		
+		//panel for the predict button
+		//predict button created
 		predictPanel = new JPanel();
 		predict = new JButton("Predict");
+		viewStats = new JButton("View Stats");
+		clear = new JButton("Clear");
 		
+		// add action listeners to each of the buttons
 		female.addActionListener(this);
 		male.addActionListener(this);
 		parentYes.addActionListener(this);
@@ -97,7 +117,22 @@ public class Screen extends JFrame implements ActionListener{
 		businessYes.addActionListener(this);
 		businessNo.addActionListener(this);
 		predict.addActionListener(this);
+		viewStats.addActionListener(this);
+		clear.addActionListener(this);
 		
+		// set header background as grey
+		headerPanel.setBackground(Color.lightGray);
+		
+		predict.setToolTipText("Be sure to clear previous information before you try again.");
+		viewStats.setToolTipText("View the calculated probability of each outcome");
+		clear.setToolTipText("Clear previously entered data.");
+		
+		// add header panel and label 
+		add(headerPanel);
+		headerPanel.add(header);
+		
+		// add panel to gui
+		// add each of labels and buttons -- done for all attributes
 		add(genderPanel);
 		genderPanel.add(genderLabel);
 		genderPanel.add(female);
@@ -125,13 +160,20 @@ public class Screen extends JFrame implements ActionListener{
 		
 		add(predictPanel);
 		predictPanel.add(predict);
-		
+		predictPanel.add(viewStats);
+		predictPanel.add(clear);
 		
 		setVisible(true);
 		
 	}
 	
 
+	// overrides actionPerformed method from action listener interface
+	// set each index in predictInfo array as String in accordance w/ the selected button
+	// when predict button is pressed convert predictInfo to List and add to studentsTesting List of Lists
+	// call testData method and return whether student will/ will not become entrepreneur
+	// when view stats is pressed, print the probability for each outcome
+	// when clear is pressed, clear the students testing array of the information previously entered
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -139,68 +181,97 @@ public class Screen extends JFrame implements ActionListener{
 		{
 			predictInfo[0] = "Female";
 		}
-		if(male.isSelected())
+		else if(male.isSelected())
 		{
 			predictInfo[0] = "Male";
+		}
+		else
+		{
+			predictInfo[0] = "null";
 		}
 		
 		if(parentYes.isSelected())
 		{
 			predictInfo[1] = "Yes";
 		}
-		
-		if(parentNo.isSelected())
+		else if(parentNo.isSelected())
 		{
 			predictInfo[1] = "No";
+		}
+		else
+		{
+			predictInfo[1] = "null";
 		}
 		
 		if(jobYes.isSelected())
 		{
 			predictInfo[2] = "Yes";
 		}
-		if(jobNo.isSelected())
+		else if(jobNo.isSelected())
 		{
 			predictInfo[2] = "No";
+		}
+		else
+		{
+			predictInfo[2] = "null";
 		}
 		
 		if(urban.isSelected())
 		{
 			predictInfo[3] = "Urban";	
 		}
-		if(rural.isSelected())
+		else if(rural.isSelected())
 		{
 			predictInfo[3] = "Rural";	
+		}
+		else
+		{
+			predictInfo[3] = "null";
 		}
 		
 		if(businessYes.isSelected())
 		{
 			predictInfo[4] = "Yes";
 		}
-		if(businessNo.isSelected())
+		else if(businessNo.isSelected())
 		{
 			predictInfo[4] = "No";
+		}
+		else
+		{
+			predictInfo[4] = "null";
 		}
 		
 		if(e.getSource() == predict)
 		{
-			List asList = Arrays.asList(predictInfo);
-			test.studentsTesting.add(asList);
-			
-			try {
-				JOptionPane.showMessageDialog(this, test.testData());
-				test.studentsTesting.clear();
-			} catch (HeadlessException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			for(int i=0; i< predictInfo.length; i++)
+			{
+				if(predictInfo[i] != null)
+				{
+					List asList = Arrays.asList(predictInfo);
+					train.studentsTesting.add(asList);
+					try {
+						JOptionPane.showMessageDialog(this,train.testData());
+						
+						break;
+						} catch (HeadlessException | IOException e1)
+						{
+							e1.printStackTrace();
+						}
+				}
+				
 			}
-			
-			
-		
-			
-			
-
 		}
 		
+		if(e.getSource() == viewStats)
+		{
+			JOptionPane.showMessageDialog(this,train.stats());
+		}
+		
+		if(e.getSource() == clear)
+		{
+			train.studentsTesting.clear();
+			JOptionPane.showMessageDialog(this,"Previous information cleared");
+		}
 	}
-
 }
